@@ -1,123 +1,99 @@
-#include <stdio.h>
+#include <iostream>
+using namespace std;
 struct node{
-    int data{};
-    node* next= nullptr;
-    node* previous=nullptr;
-}*l;
-void insert(node* element);
-void insert(node* element,int index);
-void print();
-void del(int index);
-void reverse();
-int main() {
-    insert(new node{1});
-    print();
-    printf("\n");
-    insert(new node{50},4);
-    print();
-    printf("\n");
-    insert(new node{15},2);
-    print();
-    printf("\n");
-    del(3);
-    print();
-    printf("\n");
-    reverse();
-    print();
-    return 0;
+int data;
+node *next;
+node *previous;
+};
+struct node *l=nullptr;
+void print()
+{
+    if(l== nullptr)
+        return;
+    node *temp=l;
+    do{
+        cout<<temp->data<<" ";
+        temp=temp->next;
+    }while(temp!=l);
+}
+void insert(int data,int index)
+{
+    if(index==1)
+    {
+        node *temp=new node{data,NULL,NULL};
+        temp->next=l;
+        temp->previous=l->previous;
+        temp->previous->next=temp;
+        l->previous=temp;
+        l=temp;
+        return;
+    }
+    node* current=l;
+    index-=1;
+    while(index--)
+    {current=current->next;}
+    node *temp=new node{data,NULL,NULL};
+    temp->next=current;
+    temp->previous=current->previous;
+    temp->previous->next=temp;
+    current->previous=temp;
 }
 void del(int index)
 {
-    if(l== nullptr)
-    {return;}
     if(index==1)
     {
+        node*temp=l->previous;
         l=l->next;
-        l->previous= nullptr;
+        l->previous=temp;
+        temp->next=l;
         return;
     }
-    node*temp=l;
+    node *current=l;
     index-=1;
-    while(index!=1)
+    while(index--)
     {
-        temp=temp->next;
-        index--;
+        current=current->next;
     }
-    if(temp->next==nullptr)
-    {return;}
-    temp->next=temp->next->next;
-    if(temp->next== nullptr){return;}
-    temp->next->previous=temp;
-}
- void reverse()
-{
-    node*temp=l;
-    while(temp->next!= nullptr)
-    {
-        temp=temp->next;
-    }
-    l=temp;
-    while(temp->previous!= nullptr)
-    {
-        node*q;
-    q=temp->next;
-    temp->next=temp->previous;
-    temp->previous=q;
-    temp=temp->next;
-    }
-    temp->previous=temp->next;
-    temp->next= nullptr;
-}
-void print()
-{
-    node*temp=l;
-    while(temp!= nullptr)
-    {
-        printf("%d ",temp->data);
-        temp=temp->next;
-    }
-}
-void insert(node* element){
-    if(l==nullptr)
-    {
-        l=element;
-        return;
-    }
-    node*temp=l;
-    while(temp->next!= nullptr)
-    {
-        temp=temp->next;
-    }
-    temp->next=element;
-    element->previous=temp;
-}
-void insert(node* element,int index)
-{
-    if(l==nullptr)
-    {
-        insert(element);
-        return;
-    }
-    else if(index==1)
-    {
-        node *temp=l;
-        l=element;
-        element->next=temp;
-        temp->previous=element;
-        return;
-    }
-    node*temp=l;
-    //index-=1;
-    if(index!= 2&&temp!= nullptr)
-    {
-        temp=temp->next;
-    }
-    if(temp==nullptr)
-    {insert(element);
-    return;}
-    temp->next->previous=element;
-    element->next=temp->next;
-    temp->next=element;
-    element->previous=temp;
-}
 
+    node*temp=current->previous;
+    current=current->next;
+    current->previous=temp;
+    temp->next=current;
+}
+int main() {
+    int size=0;
+    cin>> size;
+    node *temp;
+     while(size--)
+     {
+         int data=0;
+          cin>> data;
+          node *current=new node{data,NULL,NULL};
+          if(l==NULL)
+          {
+              l=current;
+              temp=current;
+          }
+          else{
+              temp->next=current;
+              current->previous=temp;
+              temp=current;
+          }
+     }
+     temp->next=l;
+     l->previous=temp;
+     print();
+     cout<<endl;
+     insert(5,1);
+     print();
+    cout<<endl;
+    insert(6,2);
+    print();
+    cout<<endl;
+    del(1);
+    print();
+    cout<<endl;
+    del(5);
+    print();
+    return 0;
+}
