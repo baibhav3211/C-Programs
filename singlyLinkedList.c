@@ -59,7 +59,7 @@ void index(int data , int n){
    }
 }
 
-void Deleteatn(int n)
+void delete_at_n(int n)
 {
     struct node* temp1 = head;
     if(n==1){
@@ -77,14 +77,14 @@ void Deleteatn(int n)
     free(temp2);
 }
 
-void delatbegin(){
+void delete_at_begin(){
     struct node* temp1 = head;
         head = temp1->link;
         free(temp1);
         return; 
 }
 
-void delatend(){
+void delete_at_end(){
     struct node* temp1 = head;
     struct node* prev;
     while(temp1->link!=NULL){
@@ -146,11 +146,11 @@ while(1){
                 break;
         case 6: printf("Enter index :\n");
                 scanf("%d",&data);
-                Deleteatn(data);
+                delete_at_n(data);
                 break;
-        case 7: delatbegin();
+        case 7: delete_at_begin();
                 break;
-        case 8: delatend();
+        case 8: delete_at_end();
                 break;
         case 9: reverse();
                 break;
